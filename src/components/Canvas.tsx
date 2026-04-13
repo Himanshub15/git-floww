@@ -23,8 +23,12 @@ const Canvas = forwardRef<HTMLDivElement>((_props, ref) => {
 
   // Setup D3 zoom
   useEffect(() => {
-    const svg = d3.select(svgRef.current);
-    const g = d3.select(gRef.current);
+    const svgEl = svgRef.current;
+    const gEl = gRef.current;
+    if (!svgEl || !gEl) return;
+
+    const svg = d3.select(svgEl);
+    const g = d3.select(gEl);
 
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.2, 3])
@@ -34,19 +38,16 @@ const Canvas = forwardRef<HTMLDivElement>((_props, ref) => {
 
     svg.call(zoom);
 
-    // Fit content on first render
-    const svgEl = svgRef.current;
-    if (svgEl) {
-      const { width: svgW, height: svgH } = svgEl.getBoundingClientRect();
-      const scale = Math.min(
-        svgW / (layout.width + 100),
-        svgH / (layout.height + 100),
-        1.5
-      );
-      const tx = (svgW - layout.width * scale) / 2;
-      const ty = (svgH - layout.height * scale) / 2;
-      svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
-    }
+    // Fit content
+    const { width: svgW, height: svgH } = svgEl.getBoundingClientRect();
+    const scale = Math.min(
+      svgW / (layout.width + 100),
+      svgH / (layout.height + 100),
+      1.5
+    );
+    const tx = (svgW - layout.width * scale) / 2;
+    const ty = (svgH - layout.height * scale) / 2;
+    svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
   }, [layout.width, layout.height]);
 
   const handleCommitClick = (node: LayoutNode) => {
