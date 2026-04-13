@@ -10,6 +10,8 @@
 [![Vite](https://img.shields.io/badge/Vite-8-646cff?style=flat&logo=vite&logoColor=white)](https://vite.dev)
 [![Bundle](https://img.shields.io/badge/Bundle-~87kb_gzipped-4ade80?style=flat)]()
 
+**[Try it live](https://himanshub15.github.io/git-floww/)**
+
 </div>
 
 ---
